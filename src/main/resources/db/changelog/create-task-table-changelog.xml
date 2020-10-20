@@ -5,10 +5,13 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-    <changeSet author="h4rar" id="1">
+    <changeSet author="h4rar" id="2">
         <createTable tableName="task">
             <column autoIncrement="true" name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="task_list_id" type="bigint">
+                <constraints nullable="true"/>
             </column>
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -26,11 +29,20 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <sql>
-            ALTER TABLE task ADD CONSTRAINT importance CHECK (importance &gt;=0 AND importance &lt;= 5)
-        </sql>
         <rollback>
             <dropTable tableName="task"/>
         </rollback>
+    </changeSet>
+
+    <changeSet id="3" author="h4rar">
+        <sql>
+            ALTER TABLE task ADD CONSTRAINT importance CHECK (importance &gt;=0 AND importance &lt;= 5)
+        </sql>
+    </changeSet>
+
+    <changeSet  id="4" author="h4rar">
+        <addForeignKeyConstraint baseColumnNames="task_list_id" baseTableName="task"
+                                 constraintName="fk_task_list_id" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="task_list"/>
     </changeSet>
 </databaseChangeLog>

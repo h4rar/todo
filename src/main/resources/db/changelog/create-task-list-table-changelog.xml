@@ -5,7 +5,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-    <changeSet author="h4rar" id="3">
+    <changeSet author="h4rar" id="1">
         <createTable tableName="task_list">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints primaryKey="true" nullable="false"/>
@@ -24,4 +24,5 @@
             <dropTable tableName="task_list"/>
         </rollback>
     </changeSet>
+
 </databaseChangeLog>
