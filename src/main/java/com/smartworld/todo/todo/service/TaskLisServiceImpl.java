@@ -4,8 +4,10 @@ import com.smartworld.todo.todo.exception.*;
 import com.smartworld.todo.todo.forms.TaskListForm;
 import com.smartworld.todo.todo.model.TaskList;
 import com.smartworld.todo.todo.repository.TaskListRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import org.springframework.data.domain.*;
 import java.util.*;
 
 @Component
@@ -18,8 +20,8 @@ public class TaskLisServiceImpl implements TaskLisService {
     }
 
     @Override
-    public List<TaskList> getTaskList() {
-        return taskListRepository.findAll();
+    public Page<TaskList> getTaskList(Pageable pageable) {
+        return taskListRepository.findAll(pageable);
     }
 
     @Override

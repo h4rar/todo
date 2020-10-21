@@ -1,13 +1,10 @@
 package com.smartworld.todo.todo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sun.istack.NotNull;
 import lombok.*;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
