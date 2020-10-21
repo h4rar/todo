@@ -1,5 +1,6 @@
 package com.smartworld.todo.todo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.*;
@@ -14,7 +15,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Builder
 @Check(constraints = "importance>=1 AND importance<=5")
 public class Task {
     @Id
@@ -37,10 +38,11 @@ public class Task {
     @Column(name = "importance")
     private int importance;
 
-    @Column(name = "is_ready", columnDefinition = "boolean default 'false'", nullable = false)
-    private boolean isReady;
+    @Column(name = "ready", columnDefinition = "boolean default 'false'", nullable = false)
+    private boolean ready;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "task_list_id")
+    @JsonBackReference
     private TaskList taskList;
 }

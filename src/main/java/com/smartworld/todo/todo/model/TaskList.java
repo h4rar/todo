@@ -1,5 +1,6 @@
 package com.smartworld.todo.todo.model;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class TaskList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +27,8 @@ public class TaskList {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy="taskList", cascade=CascadeType.ALL)
-    private Set<Task> taskSet;
+    @OneToMany(mappedBy="taskList")
+    @JsonManagedReference
+    @JsonBackReference
+    private List<Task> taskSet;
 }
