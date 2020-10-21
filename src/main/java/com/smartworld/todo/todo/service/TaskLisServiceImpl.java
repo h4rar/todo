@@ -1,5 +1,6 @@
 package com.smartworld.todo.todo.service;
 
+import com.querydsl.core.types.Predicate;
 import com.smartworld.todo.todo.exception.*;
 import com.smartworld.todo.todo.forms.TaskListForm;
 import com.smartworld.todo.todo.model.TaskList;
@@ -20,8 +21,8 @@ public class TaskLisServiceImpl implements TaskLisService {
     }
 
     @Override
-    public Page<TaskList> getTaskList(Pageable pageable) {
-        return taskListRepository.findAll(pageable);
+    public Page<TaskList> getTaskList(Predicate predicate, Pageable pageable) {
+        return taskListRepository.findAll(predicate, pageable);
     }
 
     @Override
