@@ -7,8 +7,8 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <changeSet author="h4rar" id="1">
         <createTable tableName="task_list">
-            <column autoIncrement="true" name="id" type="INT">
-                <constraints primaryKey="true" nullable="false"/>
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="list_pkey"/>
             </column>
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -19,10 +19,5 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
-        <rollback>
-            <dropTable tableName="task_list"/>
-        </rollback>
     </changeSet>
-
 </databaseChangeLog>
