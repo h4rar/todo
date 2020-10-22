@@ -6,6 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.*;
 
+/**
+ * TaskList entity
+ */
 @Entity
 @Table
 @Data
@@ -13,6 +16,7 @@ import java.util.*;
 @NoArgsConstructor
 @Builder
 public class TaskList {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -22,12 +26,12 @@ public class TaskList {
     private Date dateOfCreation;
 
     @Column(name = "date_of_change")
-    private Date  dateOfChange;
+    private Date dateOfChange;
 
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy="taskList")
+    @OneToMany(mappedBy = "taskList")
     @JsonManagedReference
     @JsonBackReference
     private List<Task> taskSet;

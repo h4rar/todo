@@ -4,9 +4,14 @@ import com.smartworld.todo.todo.exception.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+/**
+ * ValidatorImpl
+ */
 @Service
 public class ValidatorImpl implements Validator {
-    public void validationName(BindingResult bindingResult){
+
+    @Override
+    public void validationName(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new IncorrectNameException();
         }
