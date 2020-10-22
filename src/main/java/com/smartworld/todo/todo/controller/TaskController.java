@@ -3,6 +3,7 @@ package com.smartworld.todo.todo.controller;
 import com.smartworld.todo.todo.dto.TaskDto;
 import com.smartworld.todo.todo.dto.forms.*;
 import com.smartworld.todo.todo.service.*;
+import io.swagger.annotations.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * Controller for Task
  */
 @RestController
+@Api(value = "TaskController")
 public class TaskController {
 
     private final TaskService taskService;
@@ -33,6 +35,10 @@ public class TaskController {
      * @return Page<TaskList>
      */
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get tasks", response = TaskDto.class)
+    @ApiResponses({
+            @ApiResponse(code = 404, message = "Task is not found")
+    })
     public List<TaskDto> getTasks(@PathVariable Long id) {
         return taskService.getTasks(id);
     }
@@ -44,6 +50,11 @@ public class TaskController {
      * @return Page<TaskList>
      */
     @PostMapping("/{id}")
+    @ApiOperation(value = "Add new task", response = TaskDto.class)
+    @ApiResponses({
+            @ApiResponse(code = 404, message = "Task is not found"),
+            @ApiResponse(code = 400, message = "Name empty")
+    })
     public List<TaskDto> addNewTask(@PathVariable Long id, @Valid @RequestBody TaskForm taskForm, BindingResult bindingResult) {
         validator.validationName(bindingResult);
         taskService.addNewTask(id, taskForm);
@@ -58,6 +69,11 @@ public class TaskController {
      * @return Page<TaskList>
      */
     @PostMapping("/{id}/mark-done/{taskId}")
+    @ApiOperation(value = "mark Done task", response = TaskDto.class)
+    @ApiResponses({
+            @ApiResponse(code = 404, message = "Task is not found"),
+            @ApiResponse(code = 400, message = "Ready can not be empty!")
+    })
     public List<TaskDto> markDoneTask(
             @PathVariable Long id, @PathVariable Long taskId, @Valid @RequestBody TaskFormMarkDone taskFormMarkDone, BindingResult bindingResult
     ) {
@@ -74,6 +90,11 @@ public class TaskController {
      * @return Page<TaskList>
      */
     @PutMapping("/{id}/task/{taskId}")
+    @ApiOperation(value = "Edit task", response = TaskDto.class)
+    @ApiResponses({
+            @ApiResponse(code = 404, message = "Task is not found"),
+            @ApiResponse(code = 400, message = "Name empty")
+    })
     public List<TaskDto> editTask(@PathVariable Long id, @PathVariable Long taskId, @Valid @RequestBody TaskFormPut taskFormPut, BindingResult bindingResult) {
         validator.validationName(bindingResult);
         taskService.editTask(taskId, taskFormPut);
@@ -86,6 +107,10 @@ public class TaskController {
      * @return List<TaskDto>
      */
     @DeleteMapping("/{id}/task/{taskId}")
+    @ApiOperation(value = "Delete task", response = TaskDto.class)
+    @ApiResponses({
+            @ApiResponse(code = 404, message = "Task is not found")
+    })
     public List<TaskDto> deleteTask(@PathVariable Long id, @PathVariable Long taskId) {
         taskService.deleteTask(taskId);
         return getTasks(id);

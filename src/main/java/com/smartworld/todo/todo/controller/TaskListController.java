@@ -1,9 +1,11 @@
 package com.smartworld.todo.todo.controller;
 
 import com.querydsl.core.types.Predicate;
+import com.smartworld.todo.todo.dto.TaskDto;
 import com.smartworld.todo.todo.dto.forms.TaskListForm;
 import com.smartworld.todo.todo.model.TaskList;
 import com.smartworld.todo.todo.service.*;
+import io.swagger.annotations.*;
 import org.springframework.data.domain.*;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PageableDefault;
@@ -39,6 +41,10 @@ public class TaskListController {
      * @return Page<TaskList>
      */
     @GetMapping("/")
+    @ApiOperation(value = "Get task list", response = TaskList.class)
+    @ApiResponses({
+            @ApiResponse(code = 404, message = "Task is not found"),
+    })
     public Page<TaskList> getAll(
             @QuerydslPredicate(root = TaskList.class) Predicate predicate,
             @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable
@@ -56,6 +62,11 @@ public class TaskListController {
      * @return Page<TaskList>
      */
     @PostMapping("/")
+    @ApiOperation(value = "Add new task list", response = TaskList.class)
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Name empty"),
+            @ApiResponse(code = 404, message = "Task is not found")
+    })
     public Page<TaskList> addNewListTask(
             @Valid @RequestBody TaskListForm taskListForm, BindingResult bindingResult,
             @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable,
@@ -77,6 +88,11 @@ public class TaskListController {
      * @return Page<TaskList>
      */
     @PutMapping("/{id}")
+    @ApiOperation(value = "Edit task list", response = TaskList.class)
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Name empty"),
+            @ApiResponse(code = 404, message = "Task is not found")
+    })
     public Page<TaskList> editListTask(
             @PathVariable Long id,
             @Valid @RequestBody TaskListForm taskListForm, BindingResult bindingResult,
@@ -97,6 +113,10 @@ public class TaskListController {
      * @return Page<TaskList>
      */
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete task list", response = TaskList.class)
+    @ApiResponses({
+            @ApiResponse(code = 404, message = "Task is not found")
+    })
     public Page<TaskList> deleteListTask(
             @PathVariable Long id,
             @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable,
