@@ -7,6 +7,9 @@ import org.hibernate.annotations.Check;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Task entity
+ */
 @Entity
 @Table
 @Data
@@ -15,6 +18,7 @@ import java.util.Date;
 @Builder
 @Check(constraints = "importance>=1 AND importance<=5")
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -24,7 +28,7 @@ public class Task {
     private Date dateOfCreation;
 
     @Column(name = "date_of_change")
-    private Date  dateOfChange;
+    private Date dateOfChange;
 
     @Column(name = "name", length = 50, nullable = false)
     private String name;

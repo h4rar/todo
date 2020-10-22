@@ -1,14 +1,17 @@
 package com.smartworld.todo.todo.service;
 
 import com.smartworld.todo.todo.dto.TaskDto;
+import com.smartworld.todo.todo.dto.forms.*;
 import com.smartworld.todo.todo.exception.NotFoundException;
-import com.smartworld.todo.todo.forms.*;
 import com.smartworld.todo.todo.model.*;
 import com.smartworld.todo.todo.repository.*;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+/**
+ * Implementation TaskService
+ */
 @Component
 public class TaskServiceImpl implements TaskService {
 
@@ -16,6 +19,10 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
 
+    /**
+     * @param taskListRepository Repository for task lists
+     * @param taskRepository     Repository for task
+     */
     public TaskServiceImpl(TaskListRepository taskListRepository, TaskRepository taskRepository) {
         this.taskListRepository = taskListRepository;
         this.taskRepository = taskRepository;

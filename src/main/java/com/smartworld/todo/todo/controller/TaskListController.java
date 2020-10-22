@@ -1,9 +1,8 @@
 package com.smartworld.todo.todo.controller;
 
 import com.querydsl.core.types.Predicate;
-import com.smartworld.todo.todo.forms.TaskListForm;
+import com.smartworld.todo.todo.dto.forms.TaskListForm;
 import com.smartworld.todo.todo.model.TaskList;
-import com.smartworld.todo.todo.repository.TaskListRepository;
 import com.smartworld.todo.todo.service.*;
 import org.springframework.data.domain.*;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -13,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+/**
+ * Controller for TaskList
+ */
 @RestController
 public class TaskListController {
 
@@ -20,12 +22,22 @@ public class TaskListController {
 
     private final Validator validator;
 
-
+    /**
+     * @param taskLisService taskLisService
+     * @param validator      validator
+     */
     public TaskListController(TaskLisService taskLisService, Validator validator) {
         this.taskLisService = taskLisService;
         this.validator = validator;
     }
 
+    /**
+     * Get all TaskList
+     *
+     * @param predicate predicate
+     * @param pageable  pageable
+     * @return Page<TaskList>
+     */
     @GetMapping("/")
     public Page<TaskList> getAll(
             @QuerydslPredicate(root = TaskList.class) Predicate predicate,
@@ -34,6 +46,15 @@ public class TaskListController {
         return taskLisService.getTaskList(predicate, pageable);
     }
 
+    /**
+     * Controller
+     *
+     * @param taskListForm  taskListForm request
+     * @param bindingResult bindingResult
+     * @param pageable      pageable
+     * @param predicate     predicate
+     * @return Page<TaskList>
+     */
     @PostMapping("/")
     public Page<TaskList> addNewListTask(
             @Valid @RequestBody TaskListForm taskListForm, BindingResult bindingResult,
@@ -45,6 +66,16 @@ public class TaskListController {
         return getAll(predicate, pageable);
     }
 
+    /**
+     * Controller
+     *
+     * @param id            TaskList id
+     * @param taskListForm  taskListForm request
+     * @param bindingResult bindingResult
+     * @param pageable      pageable
+     * @param predicate     predicate
+     * @return Page<TaskList>
+     */
     @PutMapping("/{id}")
     public Page<TaskList> editListTask(
             @PathVariable Long id,
@@ -57,6 +88,14 @@ public class TaskListController {
         return getAll(predicate, pageable);
     }
 
+    /**
+     * Controller
+     *
+     * @param id        TaskList id
+     * @param pageable  pageable
+     * @param predicate predicate
+     * @return Page<TaskList>
+     */
     @DeleteMapping("/{id}")
     public Page<TaskList> deleteListTask(
             @PathVariable Long id,

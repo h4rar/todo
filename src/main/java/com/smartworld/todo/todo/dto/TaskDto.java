@@ -2,6 +2,9 @@ package com.smartworld.todo.todo.dto;
 
 import lombok.*;
 
+/**
+ * TaskDto response
+ */
 @Builder
 @Data
 public class TaskDto {
