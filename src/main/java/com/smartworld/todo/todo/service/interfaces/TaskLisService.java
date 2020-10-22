@@ -1,9 +1,11 @@
-package com.smartworld.todo.todo.service;
+package com.smartworld.todo.todo.service.interfaces;
 
 import com.querydsl.core.types.Predicate;
 import com.smartworld.todo.todo.dto.forms.TaskListForm;
 import com.smartworld.todo.todo.model.TaskList;
 import org.springframework.data.domain.*;
+
+import java.util.UUID;
 
 /**
  * Service for task lists
@@ -26,10 +28,10 @@ public interface TaskLisService {
      * @param id           task list id
      * @param taskListForm taskListForm request
      */
-    void editListTask(Long id, TaskListForm taskListForm);
+    void editListTask(UUID id, TaskListForm taskListForm);
 
     /**
      * @param id task list id
      */
-    void deleteListTask(Long id);
+    void deleteListTask(UUID id);
 }

@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Task entity
@@ -22,7 +22,7 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @Column(name = "date_of_creation", nullable = false)
     private Date dateOfCreation;

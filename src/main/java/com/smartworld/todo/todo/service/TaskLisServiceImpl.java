@@ -5,6 +5,7 @@ import com.smartworld.todo.todo.dto.forms.TaskListForm;
 import com.smartworld.todo.todo.exception.NotFoundException;
 import com.smartworld.todo.todo.model.TaskList;
 import com.smartworld.todo.todo.repository.TaskListRepository;
+import com.smartworld.todo.todo.service.interfaces.TaskLisService;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +40,7 @@ public class TaskLisServiceImpl implements TaskLisService {
     }
 
     @Override
-    public void editListTask(Long id, TaskListForm taskListForm) {
+    public void editListTask(UUID id, TaskListForm taskListForm) {
         Date date = new Date();
         TaskList taskList = taskListRepository.findById(id).orElseThrow(NotFoundException::new);
         taskList.setName(taskListForm.getName());
@@ -48,7 +49,7 @@ public class TaskLisServiceImpl implements TaskLisService {
     }
 
     @Override
-    public void deleteListTask(Long id) {
+    public void deleteListTask(UUID id) {
         TaskList taskList = taskListRepository.findById(id).orElseThrow(NotFoundException::new);
         taskListRepository.delete(taskList);
     }

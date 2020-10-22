@@ -20,7 +20,7 @@ public class TaskList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @Column(name = "date_of_creation", nullable = false)
     private Date dateOfCreation;

@@ -1,10 +1,9 @@
 package com.smartworld.todo.todo.controller;
 
 import com.querydsl.core.types.Predicate;
-import com.smartworld.todo.todo.dto.TaskDto;
 import com.smartworld.todo.todo.dto.forms.TaskListForm;
 import com.smartworld.todo.todo.model.TaskList;
-import com.smartworld.todo.todo.service.*;
+import com.smartworld.todo.todo.service.interfaces.*;
 import io.swagger.annotations.*;
 import org.springframework.data.domain.*;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -13,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 /**
  * Controller for TaskList
@@ -94,7 +94,7 @@ public class TaskListController {
             @ApiResponse(code = 404, message = "Task is not found")
     })
     public Page<TaskList> editListTask(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @Valid @RequestBody TaskListForm taskListForm, BindingResult bindingResult,
             @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable,
             @QuerydslPredicate(root = TaskList.class) Predicate predicate
@@ -118,7 +118,7 @@ public class TaskListController {
             @ApiResponse(code = 404, message = "Task is not found")
     })
     public Page<TaskList> deleteListTask(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable,
             @QuerydslPredicate(root = TaskList.class) Predicate predicate
     ) {

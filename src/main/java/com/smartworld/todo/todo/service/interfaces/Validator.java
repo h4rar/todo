@@ -1,4 +1,4 @@
-package com.smartworld.todo.todo.service;
+package com.smartworld.todo.todo.service.interfaces;
 
 import org.springframework.validation.BindingResult;
 

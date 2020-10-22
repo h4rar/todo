@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.*;
 
+import java.util.UUID;
+
 /**
  * Repository for task lists
  */
-public interface TaskListRepository extends JpaRepository<TaskList, Long>,
+public interface TaskListRepository extends JpaRepository<TaskList, UUID>,
         QuerydslPredicateExecutor<TaskList>, QuerydslBinderCustomizer<QTaskList> {
 
     @Override

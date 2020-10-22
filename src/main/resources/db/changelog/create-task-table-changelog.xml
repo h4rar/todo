@@ -7,10 +7,13 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <changeSet author="h4rar" id="2">
         <createTable tableName="task">
-            <column autoIncrement="true" name="id" type="bigint">
-                <constraints primaryKey="true" nullable="false" primaryKeyName="task_pkey"/>
+<!--            <column autoIncrement="true" name="id" type="bigint">-->
+<!--                <constraints primaryKey="true" nullable="false" primaryKeyName="task_pkey"/>-->
+<!--            </column>-->
+            <column name="id" type="uuid">
+                <constraints nullable="false"/>
             </column>
-            <column name="task_list_id" type="bigint">
+            <column name="task_list_id" type="uuid">
                 <constraints nullable="true" references="task_list(id)" deleteCascade="true" foreignKeyName="fk_task_list"/>
             </column>
             <column name="name" type="VARCHAR(50)">
@@ -29,6 +32,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addPrimaryKey columnNames="id" tableName="task"/>
         <rollback>
             <dropTable tableName="task"/>
         </rollback>

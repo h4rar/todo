@@ -2,9 +2,26 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
-    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <include file="/db/changelog/create-task-list-table-changelog.xml"/>
     <include file="/db/changelog/create-task-table-changelog.xml"/>
+
+<!--    <changeSet id="1" author="mike">-->
+<!--        <createTable tableName="project">-->
+<!--            <column name="id" type="uuid" autoIncrement="${autoIncrement}">-->
+<!--                <constraints primaryKey="true" nullable="false"/>-->
+<!--            </column>-->
+<!--        </createTable>-->
+<!--    </changeSet>-->
+<!--    <changeSet id="2" author="mike">-->
+<!--        <createTable tableName="project_objectives">-->
+<!--            <column name="objectives_id" type="uuid">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="project_id" type="uuid">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--        </createTable>-->
+<!--        <addPrimaryKey columnNames="project_id, objectives_id" tableName="project_objectives"/>-->
+<!--    </changeSet>-->
 </databaseChangeLog>

@@ -5,6 +5,7 @@ import com.smartworld.todo.todo.dto.forms.*;
 import com.smartworld.todo.todo.exception.NotFoundException;
 import com.smartworld.todo.todo.model.*;
 import com.smartworld.todo.todo.repository.*;
+import com.smartworld.todo.todo.service.interfaces.TaskService;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -29,7 +30,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getTasks(Long id) {
+    public List<TaskDto> getTasks(UUID id) {
         List<TaskDto> taskDtoList = new ArrayList<>();
         TaskList taskList = taskListRepository.findById(id).orElseThrow(NotFoundException::new);
         List<Task> taskSet = taskList.getTaskSet();
@@ -46,7 +47,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void addNewTask(Long id, TaskForm taskForm) {
+    public void addNewTask(UUID id, TaskForm taskForm) {
         Date dateCreate = new Date();
         TaskList taskList = taskListRepository.findById(id).orElseThrow(NotFoundException::new);
         Task task = Task.builder()
@@ -60,7 +61,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void editTask(Long taskId, TaskFormPut taskFormPut) {
+    public void editTask(UUID taskId, TaskFormPut taskFormPut) {
         Task task = taskRepository.findById(taskId).orElseThrow(NotFoundException::new);
         Date dateChange = new Date();
         task.setName(taskFormPut.getName());
@@ -75,13 +76,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteTask(Long taskId) {
+    public void deleteTask(UUID taskId) {
         Task task = taskRepository.findById(taskId).orElseThrow(NotFoundException::new);
         taskRepository.delete(task);
     }
 
     @Override
-    public void markDoneTask(Long taskId, TaskFormMarkDone taskFormMarkDone) {
+    public void markDoneTask(UUID taskId, TaskFormMarkDone taskFormMarkDone) {
         Task task = taskRepository.findById(taskId).orElseThrow(NotFoundException::new);
         task.setReady(taskFormMarkDone.isReady());
         taskRepository.save(task);
