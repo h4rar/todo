@@ -9,6 +9,7 @@ import com.smartworld.todo.todo.service.interfaces.TaskLisService;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -25,6 +26,12 @@ public class TaskLisServiceImpl implements TaskLisService {
 
     @Override
     public Page<TaskList> getTaskList(Predicate predicate, Pageable pageable) {
+        System.out.println(predicate);
+        LocalDate date = LocalDate.now();
+        System.out.println(date);
+        if(taskListRepository.findAll(predicate, pageable).isEmpty()){
+            throw new NotFoundException();
+        }
         return taskListRepository.findAll(predicate, pageable);
     }
 

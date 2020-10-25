@@ -1,10 +1,12 @@
-package com.smartworld.todo.todo.config.swagger;
+package com.smartworld.todo.todo.swagger.config;
 
 import org.springframework.context.annotation.*;
+import org.springframework.web.servlet.config.annotation.*;
 import springfox.documentation.builders.*;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
@@ -12,7 +14,9 @@ import java.util.Collections;
  * Config for Swagger
  */
 @Configuration
-public class SpringFoxConfig {
+@EnableSwagger2
+public class SwaggerConfig {
+//public class SwaggerConfig implements WebMvcConfigurer {
 
     private static ApiInfo apiInfo() {
         return new ApiInfo(
@@ -37,8 +41,8 @@ public class SpringFoxConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build().useDefaultResponseMessages(false);
+                .apis(RequestHandlerSelectors.basePackage("com.smartworld.todo.todo.controller"))
+                .paths(PathSelectors.ant("/**"))
+                .build();
     }
 }

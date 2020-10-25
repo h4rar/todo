@@ -36,6 +36,7 @@ public class TaskServiceImpl implements TaskService {
         List<Task> taskSet = taskList.getTaskSet();
         for (Task task : taskSet) {
             TaskDto taskDto = TaskDto.builder()
+                    .id(id)
                     .name(task.getName())
                     .description(task.getDescription())
                     .importance(task.getImportance())
