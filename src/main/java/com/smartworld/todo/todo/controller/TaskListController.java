@@ -12,11 +12,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Controller for TaskList
  */
+@Api(value = "TaskListController")
 @RestController
 public class TaskListController {
 
@@ -32,6 +33,21 @@ public class TaskListController {
         this.taskLisService = taskLisService;
         this.validator = validator;
     }
+
+//    @GetMapping("/test")
+//    @ApiOperation(value = "Get task list")
+//    public Page<TaskList> getAlltest(
+//            @QuerydslPredicate(root = TaskList.class) Predicate predicate,
+////            @RequestParam(name= "dateOfCreation",required = false) Date dateOfCreation,
+////            @RequestParam(name= "dateOfChange",required = false) Date dateOfChange,
+////            @RequestParam(name= "name",required = false) String name,
+//            @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable
+//    ) {
+//        return taskLisService.getTaskList(predicate, pageable);
+//    }
+
+
+
 
     /**
      * Get all TaskList
@@ -61,7 +77,7 @@ public class TaskListController {
      * @param predicate     predicate
      * @return Page<TaskList>
      */
-    @PostMapping("/")
+    @PostMapping("/list")
     @ApiOperation(value = "Add new task list", response = TaskList.class)
     @ApiResponses({
             @ApiResponse(code = 400, message = "Name empty"),
@@ -87,7 +103,7 @@ public class TaskListController {
      * @param predicate     predicate
      * @return Page<TaskList>
      */
-    @PutMapping("/{id}")
+    @PutMapping("/list/{id}")
     @ApiOperation(value = "Edit task list", response = TaskList.class)
     @ApiResponses({
             @ApiResponse(code = 400, message = "Name empty"),
@@ -112,7 +128,7 @@ public class TaskListController {
      * @param predicate predicate
      * @return Page<TaskList>
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/list/{id}")
     @ApiOperation(value = "Delete task list", response = TaskList.class)
     @ApiResponses({
             @ApiResponse(code = 404, message = "Task is not found")

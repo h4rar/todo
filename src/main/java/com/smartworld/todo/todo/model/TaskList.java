@@ -2,6 +2,7 @@ package com.smartworld.todo.todo.model;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.*;
@@ -23,6 +24,7 @@ public class TaskList {
     private UUID id;
 
     @Column(name = "date_of_creation", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfCreation;
 
     @Column(name = "date_of_change")

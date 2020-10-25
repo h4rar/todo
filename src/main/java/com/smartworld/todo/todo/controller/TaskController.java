@@ -30,11 +30,12 @@ public class TaskController {
         this.validator = validator;
     }
 
+
     /**
      * @param id TaskList id
      * @return Page<TaskList>
      */
-    @GetMapping("/{id}")
+    @GetMapping("/list/{id}")
     @ApiOperation(value = "Get tasks", response = TaskDto.class)
     @ApiResponses({
             @ApiResponse(code = 404, message = "Task is not found")
@@ -49,7 +50,7 @@ public class TaskController {
      * @param bindingResult bindingResult
      * @return Page<TaskList>
      */
-    @PostMapping("/{id}")
+    @PostMapping("/list/{id}")
     @ApiOperation(value = "Add new task", response = TaskDto.class)
     @ApiResponses({
             @ApiResponse(code = 404, message = "Task is not found"),
@@ -68,7 +69,7 @@ public class TaskController {
      * @param bindingResult    bindingResult
      * @return Page<TaskList>
      */
-    @PostMapping("/{id}/mark-done/{taskId}")
+    @PostMapping("/list/{id}/mark-done/{taskId}")
     @ApiOperation(value = "mark Done task", response = TaskDto.class)
     @ApiResponses({
             @ApiResponse(code = 404, message = "Task is not found"),
@@ -89,7 +90,7 @@ public class TaskController {
      * @param bindingResult bindingResult
      * @return Page<TaskList>
      */
-    @PutMapping("/{id}/task/{taskId}")
+    @PutMapping("/list/{id}/task/{taskId}")
     @ApiOperation(value = "Edit task", response = TaskDto.class)
     @ApiResponses({
             @ApiResponse(code = 404, message = "Task is not found"),
@@ -106,7 +107,7 @@ public class TaskController {
      * @param taskId taskId
      * @return List<TaskDto>
      */
-    @DeleteMapping("/{id}/task/{taskId}")
+    @DeleteMapping("/list/{id}/task/{taskId}")
     @ApiOperation(value = "Delete task", response = TaskDto.class)
     @ApiResponses({
             @ApiResponse(code = 404, message = "Task is not found")
