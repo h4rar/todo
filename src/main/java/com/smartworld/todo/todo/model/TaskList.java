@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -25,10 +26,10 @@ public class TaskList {
 
     @Column(name = "date_of_creation", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dateOfCreation;
+    private LocalDate dateOfCreation;
 
     @Column(name = "date_of_change")
-    private Date dateOfChange;
+    private LocalDate dateOfChange;
 
     @Column(name = "name", length = 50, nullable = false)
     private String name;

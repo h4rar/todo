@@ -26,10 +26,7 @@ public class TaskLisServiceImpl implements TaskLisService {
 
     @Override
     public Page<TaskList> getTaskList(Predicate predicate, Pageable pageable) {
-        System.out.println(predicate);
-        LocalDate date = LocalDate.now();
-        System.out.println(date);
-        if(taskListRepository.findAll(predicate, pageable).isEmpty()){
+        if (taskListRepository.findAll(predicate, pageable).isEmpty()) {
             throw new NotFoundException();
         }
         return taskListRepository.findAll(predicate, pageable);
@@ -37,9 +34,8 @@ public class TaskLisServiceImpl implements TaskLisService {
 
     @Override
     public void addNewListTask(TaskListForm taskListForm) {
-        Date dateCreate = new Date();
         TaskList taskList = TaskList.builder()
-                .dateOfCreation(dateCreate)
+                .dateOfCreation(LocalDate.now())
                 .name(taskListForm.getName())
                 .taskSet(new ArrayList<>())
                 .build();
@@ -48,10 +44,9 @@ public class TaskLisServiceImpl implements TaskLisService {
 
     @Override
     public void editListTask(UUID id, TaskListForm taskListForm) {
-        Date date = new Date();
         TaskList taskList = taskListRepository.findById(id).orElseThrow(NotFoundException::new);
         taskList.setName(taskListForm.getName());
-        taskList.setDateOfChange(date);
+        taskList.setDateOfChange(LocalDate.now());
         taskListRepository.save(taskList);
     }
 

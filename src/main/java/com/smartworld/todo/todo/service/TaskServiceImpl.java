@@ -8,6 +8,7 @@ import com.smartworld.todo.todo.repository.*;
 import com.smartworld.todo.todo.service.interfaces.TaskService;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -49,10 +50,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void addNewTask(UUID id, TaskForm taskForm) {
-        Date dateCreate = new Date();
         TaskList taskList = taskListRepository.findById(id).orElseThrow(NotFoundException::new);
         Task task = Task.builder()
-                .dateOfCreation(dateCreate)
+                .dateOfCreation(LocalDate.now())
                 .name(taskForm.getName())
                 .description(taskForm.getDescription())
                 .importance(taskForm.getImportance())
@@ -64,9 +64,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void editTask(UUID taskId, TaskFormPut taskFormPut) {
         Task task = taskRepository.findById(taskId).orElseThrow(NotFoundException::new);
-        Date dateChange = new Date();
         task.setName(taskFormPut.getName());
-        task.setDateOfChange(dateChange);
+        task.setDateOfChange(LocalDate.now());
         String description = taskFormPut.getDescription();
         int importance = taskFormPut.getImportance();
         boolean isReady = taskFormPut.isReady();

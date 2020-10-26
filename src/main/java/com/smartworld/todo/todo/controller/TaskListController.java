@@ -34,17 +34,17 @@ public class TaskListController {
         this.validator = validator;
     }
 
-//    @GetMapping("/test")
-//    @ApiOperation(value = "Get task list")
-//    public Page<TaskList> getAlltest(
-//            @QuerydslPredicate(root = TaskList.class) Predicate predicate,
-////            @RequestParam(name= "dateOfCreation",required = false) Date dateOfCreation,
-////            @RequestParam(name= "dateOfChange",required = false) Date dateOfChange,
-////            @RequestParam(name= "name",required = false) String name,
-//            @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable
-//    ) {
-//        return taskLisService.getTaskList(predicate, pageable);
-//    }
+    @GetMapping("/test")
+    @ApiOperation(value = "Get task list")
+    public Page<TaskList> getAlltest(
+            @QuerydslPredicate(root = TaskList.class) Predicate predicate,
+//            @RequestParam(name= "dateOfCreation",required = false) Date dateOfCreation,
+//            @RequestParam(name= "dateOfChange",required = false) Date dateOfChange,
+//            @RequestParam(name= "name",required = false) String name,
+            @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+        return taskLisService.getTaskList(predicate, pageable);
+    }
 
 
 
