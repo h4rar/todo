@@ -3,6 +3,7 @@ package com.smartworld.todo.todo.controller;
 import com.querydsl.core.types.Predicate;
 import com.smartworld.todo.todo.dto.forms.TaskListForm;
 import com.smartworld.todo.todo.model.TaskList;
+import com.smartworld.todo.todo.repository.TaskListRepository;
 import com.smartworld.todo.todo.service.interfaces.*;
 import io.swagger.annotations.*;
 import org.springframework.data.domain.*;
@@ -25,29 +26,30 @@ public class TaskListController {
 
     private final Validator validator;
 
+    private final TaskListRepository taskListRepository;
+
     /**
-     * @param taskLisService taskLisService
-     * @param validator      validator
+     * @param taskLisService     taskLisService
+     * @param validator          validator
+     * @param taskListRepository
      */
-    public TaskListController(TaskLisService taskLisService, Validator validator) {
+    public TaskListController(TaskLisService taskLisService, Validator validator, TaskListRepository taskListRepository) {
         this.taskLisService = taskLisService;
         this.validator = validator;
+        this.taskListRepository = taskListRepository;
     }
 
     @GetMapping("/test")
     @ApiOperation(value = "Get task list")
     public Page<TaskList> getAlltest(
-            @QuerydslPredicate(root = TaskList.class) Predicate predicate,
-//            @RequestParam(name= "dateOfCreation",required = false) Date dateOfCreation,
-//            @RequestParam(name= "dateOfChange",required = false) Date dateOfChange,
-//            @RequestParam(name= "name",required = false) String name,
+            @QuerydslPredicate(root = TaskList.class, bindings = TaskListRepository.class) Predicate predicate,
+            @RequestParam(name = "dateOfCreation", required = false) String dateOfCreation,
+            @RequestParam(name = "dateOfChange", required = false) String dateOfChange,
+            @RequestParam(name = "name", required = false) String name,
             @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return taskLisService.getTaskList(predicate, pageable);
     }
-
-
-
 
     /**
      * Get all TaskList

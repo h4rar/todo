@@ -29,6 +29,7 @@ public class TaskList {
     private LocalDate dateOfCreation;
 
     @Column(name = "date_of_change")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfChange;
 
     @Column(name = "name", length = 50, nullable = false)
