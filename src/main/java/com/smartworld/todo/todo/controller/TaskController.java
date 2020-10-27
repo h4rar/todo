@@ -14,7 +14,7 @@ import java.util.*;
  * Controller for Task
  */
 @RestController
-@Api(value = "TaskController")
+@Api(tags = {"Задачи"})
 public class TaskController {
 
     private final TaskService taskService;
@@ -30,17 +30,19 @@ public class TaskController {
         this.validator = validator;
     }
 
-
     /**
      * @param id TaskList id
      * @return Page<TaskList>
      */
     @GetMapping("/list/{id}")
-    @ApiOperation(value = "Get tasks", response = TaskDto.class)
+    @ApiOperation(value = "Получить все задачи из списка дел")
     @ApiResponses({
             @ApiResponse(code = 404, message = "Task is not found")
     })
-    public List<TaskDto> getTasks(@PathVariable UUID id) {
+    public List<TaskDto> getTasks(
+            @ApiParam(value = "Необходимо передать id списка дел\n Пример: http://localhost:8080/list/fcff5c91-3163-4a15-af7d-014a8834db11", required = true)
+            @PathVariable UUID id
+    ) {
         return taskService.getTasks(id);
     }
 
@@ -51,12 +53,17 @@ public class TaskController {
      * @return Page<TaskList>
      */
     @PostMapping("/list/{id}")
-    @ApiOperation(value = "Add new task", response = TaskDto.class)
+    @ApiOperation(value = "Добавить задачу к списку дел")
     @ApiResponses({
             @ApiResponse(code = 404, message = "Task is not found"),
             @ApiResponse(code = 400, message = "Name empty")
     })
-    public List<TaskDto> addNewTask(@PathVariable UUID id, @Valid @RequestBody TaskForm taskForm, BindingResult bindingResult) {
+    public List<TaskDto> addNewTask(
+            @ApiParam(value = "Необходимо передать id списка дел", required = true)
+            @PathVariable UUID id,
+            @ApiParam(value = "Необходимо заполнить имя, важность и описание создаваемого списка дел", required = true)
+            @Valid @RequestBody TaskForm taskForm, BindingResult bindingResult
+    ) {
         validator.validationName(bindingResult);
         taskService.addNewTask(id, taskForm);
         return getTasks(id);
@@ -70,13 +77,18 @@ public class TaskController {
      * @return Page<TaskList>
      */
     @PostMapping("/list/{id}/mark-done/{taskId}")
-    @ApiOperation(value = "mark Done task", response = TaskDto.class)
+    @ApiOperation(value = "Отметить задачу как решенную/нерешенную")
     @ApiResponses({
             @ApiResponse(code = 404, message = "Task is not found"),
             @ApiResponse(code = 400, message = "Ready can not be empty!")
     })
     public List<TaskDto> markDoneTask(
-            @PathVariable UUID id, @PathVariable UUID taskId, @Valid @RequestBody TaskFormMarkDone taskFormMarkDone, BindingResult bindingResult
+            @ApiParam(value = "Необходимо передать id списка дел", required = true)
+            @PathVariable UUID id,
+            @ApiParam(value = "Необходимо передать id задачи", required = true)
+            @PathVariable UUID taskId,
+            @ApiParam(value = "Необходимо передать статус задачи", required = true)
+            @Valid @RequestBody TaskFormMarkDone taskFormMarkDone, BindingResult bindingResult
     ) {
         validator.validationMarkDone(bindingResult);
         taskService.markDoneTask(taskId, taskFormMarkDone);
@@ -91,12 +103,19 @@ public class TaskController {
      * @return Page<TaskList>
      */
     @PutMapping("/list/{id}/task/{taskId}")
-    @ApiOperation(value = "Edit task", response = TaskDto.class)
+    @ApiOperation(value = "Изменить задачу")
     @ApiResponses({
             @ApiResponse(code = 404, message = "Task is not found"),
             @ApiResponse(code = 400, message = "Name empty")
     })
-    public List<TaskDto> editTask(@PathVariable UUID id, @PathVariable UUID taskId, @Valid @RequestBody TaskFormPut taskFormPut, BindingResult bindingResult) {
+    public List<TaskDto> editTask(
+            @ApiParam(value = "Необходимо передать id списка дел", required = true)
+            @PathVariable UUID id,
+            @ApiParam(value = "Необходимо передать id задачи", required = true)
+            @PathVariable UUID taskId,
+            @ApiParam(value = "Необходимо передать имя, описание, важность и статус задачи", required = true)
+            @Valid @RequestBody TaskFormPut taskFormPut, BindingResult bindingResult
+    ) {
         validator.validationName(bindingResult);
         taskService.editTask(taskId, taskFormPut);
         return getTasks(id);
@@ -108,11 +127,16 @@ public class TaskController {
      * @return List<TaskDto>
      */
     @DeleteMapping("/list/{id}/task/{taskId}")
-    @ApiOperation(value = "Delete task", response = TaskDto.class)
+    @ApiOperation(value = "Удалить задачу")
     @ApiResponses({
             @ApiResponse(code = 404, message = "Task is not found")
     })
-    public List<TaskDto> deleteTask(@PathVariable UUID id, @PathVariable UUID taskId) {
+    public List<TaskDto> deleteTask(
+            @ApiParam(value = "Необходимо передать id списка дел", required = true)
+            @PathVariable UUID id,
+            @ApiParam(value = "Необходимо передать id задачи", required = true)
+            @PathVariable UUID taskId
+    ) {
         taskService.deleteTask(taskId);
         return getTasks(id);
     }

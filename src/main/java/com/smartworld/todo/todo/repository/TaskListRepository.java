@@ -33,18 +33,6 @@ public interface TaskListRepository extends JpaRepository<TaskList, UUID>,
                 return Optional.of(path.goe(from)); // greater than or equal
             }
         });
-
-//        // Add 'between' and 'greater or equal' filter date property
-//        bindings.bind(root.dateOfCreation).all((path, value) -> {
-//            Iterator<? extends LocalDate> it = value.iterator();
-//            LocalDate from = it.next();
-//            if (value.size() >= 2) {
-//                LocalDate to = it.next();
-//                return Optional.of(path.between(from, to)); // between
-//            } else {
-//                return Optional.of(path.goe(from)); // greater than or equal
-//            }
-//        });
     }
 }
 
