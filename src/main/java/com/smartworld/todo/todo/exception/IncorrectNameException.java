@@ -4,13 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * BAD_REQUEST Exception (IncorrectName)
+ * Исключение для ситуации "плохой запрос"
  */
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class IncorrectNameException extends RuntimeException {
 
     /**
-     *
+     * Исключение для ситуации "плохой запрос"
      */
     public IncorrectNameException() {
         super("Name empty");
