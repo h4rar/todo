@@ -49,7 +49,7 @@ public class TaskListController {
     @GetMapping("/")
     @ApiOperation(value = "getTaskList() Получить список дел")
     @ApiResponses({
-            @ApiResponse(code = 404, message = "Task is not found"),
+            @ApiResponse(code = 404, message = "Not found"),
     })
     @MyApiPageableAndQuerydsl
     public Page<TaskList> getTaskList(
@@ -72,7 +72,7 @@ public class TaskListController {
             "поэтому можно передать те же параметры фидьтрации сортировки и т.д")
     @ApiResponses({
             @ApiResponse(code = 400, message = "Name empty"),
-            @ApiResponse(code = 404, message = "Task is not found")
+            @ApiResponse(code = 404, message = "Not found")
     })
     @MyApiPageableAndQuerydsl
     public Page<TaskList> addNewTaskList(
@@ -100,7 +100,7 @@ public class TaskListController {
             "поэтому можно передать те же параметры фидьтрации сортировки и т.д")
     @ApiResponses({
             @ApiResponse(code = 400, message = "Name empty"),
-            @ApiResponse(code = 404, message = "Task is not found")
+            @ApiResponse(code = 404, message = "Not found")
     })
     @MyApiPageableAndQuerydsl
     public Page<TaskList> editListTask(
@@ -129,7 +129,7 @@ public class TaskListController {
             " После успешного удаления вызывается метод getTaskList(), " +
             "поэтому можно передать те же параметры фидьтрации сортировки и т.д")
     @ApiResponses({
-            @ApiResponse(code = 404, message = "Task is not found")
+            @ApiResponse(code = 404, message = "Not found")
     })
     @MyApiPageableAndQuerydsl
     public Page<TaskList> deleteTaskList(

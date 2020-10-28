@@ -41,7 +41,7 @@ public class TaskController {
     @GetMapping("/list/{id}")
     @ApiOperation(value = "Получить все задачи из списка дел")
     @ApiResponses({
-            @ApiResponse(code = 404, message = "Task is not found")
+            @ApiResponse(code = 404, message = "Not found")
     })
     public List<TaskDto> getTasks(
             @ApiParam(value = "Необходимо передать id списка дел\n Пример: http://localhost:8080/list/fcff5c91-3163-4a15-af7d-014a8834db11", required = true)
@@ -60,7 +60,7 @@ public class TaskController {
     @PostMapping("/list/{id}")
     @ApiOperation(value = "Добавить задачу к списку дел")
     @ApiResponses({
-            @ApiResponse(code = 404, message = "Task is not found"),
+            @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 400, message = "Name empty")
     })
     public List<TaskDto> addNewTask(
@@ -85,7 +85,7 @@ public class TaskController {
     @PostMapping("/list/{id}/mark-done/{taskId}")
     @ApiOperation(value = "Отметить задачу как решенную/нерешенную")
     @ApiResponses({
-            @ApiResponse(code = 404, message = "Task is not found"),
+            @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 400, message = "Ready can not be empty!")
     })
     public List<TaskDto> markDoneTask(
@@ -112,7 +112,7 @@ public class TaskController {
     @PutMapping("/list/{id}/task/{taskId}")
     @ApiOperation(value = "Изменить задачу")
     @ApiResponses({
-            @ApiResponse(code = 404, message = "Task is not found"),
+            @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 400, message = "Name empty")
     })
     public List<TaskDto> editTask(
@@ -138,7 +138,7 @@ public class TaskController {
     @DeleteMapping("/list/{id}/task/{taskId}")
     @ApiOperation(value = "Удалить задачу")
     @ApiResponses({
-            @ApiResponse(code = 404, message = "Task is not found")
+            @ApiResponse(code = 404, message = "Not found")
     })
     public List<TaskDto> deleteTask(
             @ApiParam(value = "Необходимо передать id списка дел", required = true)

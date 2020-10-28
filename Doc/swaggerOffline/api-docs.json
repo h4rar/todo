@@ -1,0 +1,871 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Description of Todo API",
+    "version": "0.0.1",
+    "title": "Todo API",
+    "termsOfService": "Terms of service",
+    "contact": {
+      "name": "Anton",
+      "url": "https://t.me/h4rar",
+      "email": "anton.h4rar@gmail.com"
+    },
+    "license": {
+      "name": "-",
+      "url": "-"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Задачи",
+      "description": "Task Controller"
+    },
+    {
+      "name": "Список дел",
+      "description": "Task List Controller"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Список дел"
+        ],
+        "summary": "getTaskList() Получить список дел",
+        "operationId": "getTaskListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "dateOfChange",
+            "in": "query",
+            "description": "Параметр фильтрации по дате изменения. Если указать в запросе 2 параметра, то в ответе будут все списки дел с датой изменения между этими параметрамиЕсли указать только один параметр, то получим записи с датой изменения больше или равным этому значению.\nПример: http://localhost:8080/test/?dateOfChange=2020-10-23&dateOfChange=2020-10-25",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "dateOfCreation",
+            "in": "query",
+            "description": "Параметр фильтрации по дате создания. Аналогично фильтрации по дате изменения.\nПример: http://localhost:8080/test/?dateOfCreation=2020-10-25",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Страница результатов, которую вы хотите получить (0..N). \nПример: http://localhost:8080/?page=0",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Количество записей на странице. \nПример:http://localhost:8080/?size=2",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Критерии сортировки в формате: свойство (,asc|desc). Нечувствителен к регистру, можно указать имя не полностью. По умолчанию сортировка выполняется по дате создания, от новых к старым.\nПример: http://localhost:8080/?sort=name,desc",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page«TaskList»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/list": {
+      "post": {
+        "tags": [
+          "Список дел"
+        ],
+        "summary": "addNewTaskList() Добавить новый список дел. После успешного добавления вызывается метод getTaskList(), поэтому можно передать те же параметры фидьтрации сортировки и т.д",
+        "operationId": "addNewTaskListUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "dateOfChange",
+            "in": "query",
+            "description": "Параметр фильтрации по дате изменения. Если указать в запросе 2 параметра, то в ответе будут все списки дел с датой изменения между этими параметрамиЕсли указать только один параметр, то получим записи с датой изменения больше или равным этому значению.\nПример: http://localhost:8080/test/?dateOfChange=2020-10-23&dateOfChange=2020-10-25",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "dateOfCreation",
+            "in": "query",
+            "description": "Параметр фильтрации по дате создания. Аналогично фильтрации по дате изменения.\nПример: http://localhost:8080/test/?dateOfCreation=2020-10-25",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Страница результатов, которую вы хотите получить (0..N). \nПример: http://localhost:8080/?page=0",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Количество записей на странице. \nПример:http://localhost:8080/?size=2",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Критерии сортировки в формате: свойство (,asc|desc). Нечувствителен к регистру, можно указать имя не полностью. По умолчанию сортировка выполняется по дате создания, от новых к старым.\nПример: http://localhost:8080/?sort=name,desc",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "taskListForm",
+            "description": "Необходимо заполнить имя создаваемого списка дел",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TaskListForm"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page«TaskList»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Name empty"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/list/{id}": {
+      "get": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Получить все задачи из списка дел",
+        "operationId": "getTasksUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Необходимо передать id списка дел\n Пример: http://localhost:8080/list/fcff5c91-3163-4a15-af7d-014a8834db11",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TaskDto"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Добавить задачу к списку дел",
+        "operationId": "addNewTaskUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Необходимо передать id списка дел",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "taskForm",
+            "description": "Необходимо заполнить имя, важность и описание создаваемого списка дел",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TaskForm"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TaskDto"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Name empty"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "Список дел"
+        ],
+        "summary": "editListTask() Изменить выбранный список дел. После успешного изменения вызывается метод getTaskList(), поэтому можно передать те же параметры фидьтрации сортировки и т.д",
+        "operationId": "editListTaskUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "dateOfChange",
+            "in": "query",
+            "description": "Параметр фильтрации по дате изменения. Если указать в запросе 2 параметра, то в ответе будут все списки дел с датой изменения между этими параметрамиЕсли указать только один параметр, то получим записи с датой изменения больше или равным этому значению.\nПример: http://localhost:8080/test/?dateOfChange=2020-10-23&dateOfChange=2020-10-25",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "dateOfCreation",
+            "in": "query",
+            "description": "Параметр фильтрации по дате создания. Аналогично фильтрации по дате изменения.\nПример: http://localhost:8080/test/?dateOfCreation=2020-10-25",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Необходимо передать id списка дел\n Пример: http://localhost:8080/list/afd1bed2-cf62-4b03-b9c9-341d2ac6a30c",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Страница результатов, которую вы хотите получить (0..N). \nПример: http://localhost:8080/?page=0",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Количество записей на странице. \nПример:http://localhost:8080/?size=2",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Критерии сортировки в формате: свойство (,asc|desc). Нечувствителен к регистру, можно указать имя не полностью. По умолчанию сортировка выполняется по дате создания, от новых к старым.\nПример: http://localhost:8080/?sort=name,desc",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "taskListForm",
+            "description": "Необходимо заполнить имя изменяемого списка дел",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TaskListForm"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page«TaskList»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Name empty"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Список дел"
+        ],
+        "summary": "deleteTaskList() Удалить выбранный спимок дел. Каскадно удалятся все задачи, принадлежащие этому списку. После успешного удаления вызывается метод getTaskList(), поэтому можно передать те же параметры фидьтрации сортировки и т.д",
+        "operationId": "deleteTaskListUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "dateOfChange",
+            "in": "query",
+            "description": "Параметр фильтрации по дате изменения. Если указать в запросе 2 параметра, то в ответе будут все списки дел с датой изменения между этими параметрамиЕсли указать только один параметр, то получим записи с датой изменения больше или равным этому значению.\nПример: http://localhost:8080/test/?dateOfChange=2020-10-23&dateOfChange=2020-10-25",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "dateOfCreation",
+            "in": "query",
+            "description": "Параметр фильтрации по дате создания. Аналогично фильтрации по дате изменения.\nПример: http://localhost:8080/test/?dateOfCreation=2020-10-25",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Необходимо передать id списка дел\n Пример: http://localhost:8080/list/b8648553-087f-4253-8ff5-947bda5a2bd2",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Страница результатов, которую вы хотите получить (0..N). \nПример: http://localhost:8080/?page=0",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Количество записей на странице. \nПример:http://localhost:8080/?size=2",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Критерии сортировки в формате: свойство (,asc|desc). Нечувствителен к регистру, можно указать имя не полностью. По умолчанию сортировка выполняется по дате создания, от новых к старым.\nПример: http://localhost:8080/?sort=name,desc",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page«TaskList»"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/list/{id}/mark-done/{taskId}": {
+      "post": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Отметить задачу как решенную/нерешенную",
+        "operationId": "markDoneTaskUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Необходимо передать id списка дел",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "taskFormMarkDone",
+            "description": "Необходимо передать статус задачи",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TaskFormMarkDone"
+            }
+          },
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "Необходимо передать id задачи",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TaskDto"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Ready can not be empty!"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/list/{id}/task/{taskId}": {
+      "put": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Изменить задачу",
+        "operationId": "editTaskUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Необходимо передать id списка дел",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "taskFormPut",
+            "description": "Необходимо передать имя, описание, важность и статус задачи",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TaskFormPut"
+            }
+          },
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "Необходимо передать id задачи",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TaskDto"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Name empty"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Удалить задачу",
+        "operationId": "deleteTaskUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Необходимо передать id списка дел",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "Необходимо передать id задачи",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TaskDto"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "Pageable": {
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "paged": {
+          "type": "boolean"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "unpaged": {
+          "type": "boolean"
+        }
+      },
+      "title": "Pageable"
+    },
+    "Page«TaskList»": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TaskList"
+          }
+        },
+        "empty": {
+          "type": "boolean"
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageable": {
+          "$ref": "#/definitions/Pageable"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "Page«TaskList»"
+    },
+    "Sort": {
+      "type": "object",
+      "properties": {
+        "empty": {
+          "type": "boolean"
+        },
+        "sorted": {
+          "type": "boolean"
+        },
+        "unsorted": {
+          "type": "boolean"
+        }
+      },
+      "title": "Sort"
+    },
+    "Task": {
+      "type": "object",
+      "properties": {
+        "dateOfChange": {
+          "type": "string",
+          "format": "date"
+        },
+        "dateOfCreation": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "importance": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "ready": {
+          "type": "boolean"
+        },
+        "taskList": {
+          "$ref": "#/definitions/TaskList"
+        }
+      },
+      "title": "Task"
+    },
+    "TaskDto": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "importance": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "ready": {
+          "type": "boolean"
+        }
+      },
+      "title": "TaskDto"
+    },
+    "TaskForm": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "importance": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "TaskForm"
+    },
+    "TaskFormMarkDone": {
+      "type": "object",
+      "properties": {
+        "ready": {
+          "type": "boolean"
+        }
+      },
+      "title": "TaskFormMarkDone"
+    },
+    "TaskFormPut": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "importance": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "ready": {
+          "type": "boolean"
+        }
+      },
+      "title": "TaskFormPut"
+    },
+    "TaskList": {
+      "type": "object",
+      "properties": {
+        "dateOfChange": {
+          "type": "string",
+          "format": "date"
+        },
+        "dateOfCreation": {
+          "type": "string",
+          "format": "date"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "taskSet": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Task"
+          }
+        }
+      },
+      "title": "TaskList"
+    },
+    "TaskListForm": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "TaskListForm"
+    }
+  }
+}
