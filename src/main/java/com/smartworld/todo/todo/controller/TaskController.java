@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.*;
 
 /**
- * Controller for Task
+ * Контроллер для задач
  */
 @RestController
 @Api(tags = {"Задачи"})
@@ -19,20 +19,24 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    private final Validator validator;
+    private final ValidatorService validatorService;
 
     /**
-     * @param taskService taskService
-     * @param validator   validator
+     * Конструктор
+     *
+     * @param taskService сервис задач
+     * @param validatorService   сервис валидации
      */
-    public TaskController(TaskService taskService, Validator validator) {
+    public TaskController(TaskService taskService, ValidatorService validatorService) {
         this.taskService = taskService;
-        this.validator = validator;
+        this.validatorService = validatorService;
     }
 
     /**
-     * @param id TaskList id
-     * @return Page<TaskList>
+     * Возвращает список задач
+     *
+     * @param id id списка дел
+     * @return список задач
      */
     @GetMapping("/list/{id}")
     @ApiOperation(value = "Получить все задачи из списка дел")
@@ -47,10 +51,11 @@ public class TaskController {
     }
 
     /**
-     * @param id            TaskList id
-     * @param taskForm      taskForm request
-     * @param bindingResult bindingResult
-     * @return Page<TaskList>
+     * Добавляет новую задачу к списку дел
+     *
+     * @param id       id списка дел
+     * @param taskForm данные для новой задачи
+     * @return список задач
      */
     @PostMapping("/list/{id}")
     @ApiOperation(value = "Добавить задачу к списку дел")
@@ -64,17 +69,18 @@ public class TaskController {
             @ApiParam(value = "Необходимо заполнить имя, важность и описание создаваемого списка дел", required = true)
             @Valid @RequestBody TaskForm taskForm, BindingResult bindingResult
     ) {
-        validator.validationName(bindingResult);
+        validatorService.validationName(bindingResult);
         taskService.addNewTask(id, taskForm);
         return getTasks(id);
     }
 
     /**
-     * @param id               TaskList id
-     * @param taskId           taskId
-     * @param taskFormMarkDone taskFormMarkDone request
-     * @param bindingResult    bindingResult
-     * @return Page<TaskList>
+     * Отмечает задачу как решенную/нерешенную
+     *
+     * @param id               id списка дел
+     * @param taskId           id задачи
+     * @param taskFormMarkDone данные для изменения статуса задачи
+     * @return список задач
      */
     @PostMapping("/list/{id}/mark-done/{taskId}")
     @ApiOperation(value = "Отметить задачу как решенную/нерешенную")
@@ -90,17 +96,18 @@ public class TaskController {
             @ApiParam(value = "Необходимо передать статус задачи", required = true)
             @Valid @RequestBody TaskFormMarkDone taskFormMarkDone, BindingResult bindingResult
     ) {
-        validator.validationMarkDone(bindingResult);
+        validatorService.validationMarkDone(bindingResult);
         taskService.markDoneTask(taskId, taskFormMarkDone);
         return getTasks(id);
     }
 
     /**
-     * @param id            TaskList id
-     * @param taskId        taskId
-     * @param taskFormPut   taskFormPut
-     * @param bindingResult bindingResult
-     * @return Page<TaskList>
+     * Изменяет задачу
+     *
+     * @param id          id списка дел
+     * @param taskId      id задачи
+     * @param taskFormPut данные для изменения задачи
+     * @return список задач
      */
     @PutMapping("/list/{id}/task/{taskId}")
     @ApiOperation(value = "Изменить задачу")
@@ -116,15 +123,17 @@ public class TaskController {
             @ApiParam(value = "Необходимо передать имя, описание, важность и статус задачи", required = true)
             @Valid @RequestBody TaskFormPut taskFormPut, BindingResult bindingResult
     ) {
-        validator.validationName(bindingResult);
+        validatorService.validationName(bindingResult);
         taskService.editTask(taskId, taskFormPut);
         return getTasks(id);
     }
 
     /**
-     * @param id     TaskList id
-     * @param taskId taskId
-     * @return List<TaskDto>
+     * Удаляет задачу из списка дел
+     *
+     * @param id     id списка дел
+     * @param taskId id задачи
+     * @return список задач
      */
     @DeleteMapping("/list/{id}/task/{taskId}")
     @ApiOperation(value = "Удалить задачу")

@@ -5,11 +5,14 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * TaskListForm request
+ * DTO для добавления нового списка дел
  */
 @Data
 public class TaskListForm {
 
+    /**
+     * Поле имя
+     */
     @NotBlank
     private String name;
 }

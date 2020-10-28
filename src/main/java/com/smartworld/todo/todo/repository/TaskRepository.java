@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 /**
- * Repository for task
+ * Репозиторий для задач
  */
 public interface TaskRepository extends JpaRepository<Task, UUID> {
 

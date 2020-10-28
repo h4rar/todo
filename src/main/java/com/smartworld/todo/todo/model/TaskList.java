@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 /**
- * TaskList entity
+ * Сущность списка дел
  */
 @Entity
 @Table
@@ -19,22 +19,37 @@ import java.util.*;
 @Builder
 public class TaskList {
 
+    /**
+     * Поле id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
 
+    /**
+     * Поле дата создания
+     */
     @Column(name = "date_of_creation", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfCreation;
 
+    /**
+     * Поле дата изменения
+     */
     @Column(name = "date_of_change")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfChange;
 
+    /**
+     * Поле имя
+     */
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
+    /**
+     * Список задач
+     */
     @OneToMany(mappedBy = "taskList")
     @JsonManagedReference
     @JsonBackReference

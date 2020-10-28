@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 /**
- * Implementation TaskService
+ * Имплементация TaskService
  */
 @Component
 public class TaskServiceImpl implements TaskService {
@@ -22,8 +22,10 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
     /**
-     * @param taskListRepository Repository for task lists
-     * @param taskRepository     Repository for task
+     * Констркуктор
+     *
+     * @param taskListRepository репозиторий списков дел
+     * @param taskRepository     репозиторий задач
      */
     public TaskServiceImpl(TaskListRepository taskListRepository, TaskRepository taskRepository) {
         this.taskListRepository = taskListRepository;

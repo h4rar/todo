@@ -18,31 +18,33 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 /**
- * Controller for TaskList
+ * Контроллер для списка дел
  */
 @Api(tags = {"Список дел"})
 @RestController
 public class TaskListController {
 
-    private final TaskLisService taskLisService;
+    private final TaskListService taskListService;
 
-    private final Validator validator;
+    private final ValidatorService validatorService;
 
     /**
-     * @param taskLisService taskLisService
-     * @param validator      validator
+     * Конструктор
+     *
+     * @param taskListService сервис списка дел
+     * @param validatorService      сервис валидации
      */
-    public TaskListController(TaskLisService taskLisService, Validator validator) {
-        this.taskLisService = taskLisService;
-        this.validator = validator;
+    public TaskListController(TaskListService taskListService, ValidatorService validatorService) {
+        this.taskListService = taskListService;
+        this.validatorService = validatorService;
     }
 
     /**
-     * Get all TaskList
+     * Возвращает списки дел
      *
-     * @param predicate predicate
-     * @param pageable  pageable
-     * @return Page<TaskList>
+     * @param predicate Предикаты. Обеспечивают фильтрацию
+     * @param pageable  Пагинация. Обеспечивает пагиначию и сортировку
+     * @return списки дел
      */
     @GetMapping("/")
     @ApiOperation(value = "getTaskList() Получить список дел")
@@ -54,17 +56,16 @@ public class TaskListController {
             @ApiIgnore @QuerydslPredicate(root = TaskList.class, bindings = TaskListRepository.class) Predicate predicate,
             @ApiIgnore @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        return taskLisService.getTaskList(predicate, pageable);
+        return taskListService.getTaskList(predicate, pageable);
     }
 
     /**
-     * Controller
+     * Добавляет новый список дел
      *
-     * @param taskListForm  taskListForm request
-     * @param bindingResult bindingResult
-     * @param pageable      pageable
-     * @param predicate     predicate
-     * @return Page<TaskList>
+     * @param taskListForm данные для нового списка дел
+     * @param predicate    Предикаты. Обеспечивают фильтрацию
+     * @param pageable     Пагинация. Обеспечивает пагиначию и сортировку
+     * @return списки дел
      */
     @PostMapping("/list")
     @ApiOperation(value = "addNewTaskList() Добавить новый список дел. После успешного добавления вызывается метод getTaskList(), " +
@@ -80,23 +81,22 @@ public class TaskListController {
             @ApiIgnore @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable,
             @ApiIgnore @QuerydslPredicate(root = TaskList.class) Predicate predicate
     ) {
-        validator.validationName(bindingResult);
-        taskLisService.addNewListTask(taskListForm);
+        validatorService.validationName(bindingResult);
+        taskListService.addNewListTask(taskListForm);
         return getTaskList(predicate, pageable);
     }
 
     /**
-     * Controller
+     * Изменяет выбранный список дел
      *
-     * @param id            TaskList id
-     * @param taskListForm  taskListForm request
-     * @param bindingResult bindingResult
-     * @param pageable      pageable
-     * @param predicate     predicate
-     * @return Page<TaskList>
+     * @param id           id списка дел
+     * @param taskListForm данные для изменения списка дел
+     * @param predicate    Предикаты. Обеспечивают фильтрацию
+     * @param pageable     Пагинация. Обеспечивает пагиначию и сортировку
+     * @return списки дел
      */
     @PutMapping("/list/{id}")
-    @ApiOperation(value = "editListTask() Изменить выбранный спимок дел. После успешного изменения вызывается метод getTaskList(), " +
+    @ApiOperation(value = "editListTask() Изменить выбранный список дел. После успешного изменения вызывается метод getTaskList(), " +
             "поэтому можно передать те же параметры фидьтрации сортировки и т.д")
     @ApiResponses({
             @ApiResponse(code = 400, message = "Name empty"),
@@ -111,18 +111,18 @@ public class TaskListController {
             @ApiIgnore @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable,
             @ApiIgnore @QuerydslPredicate(root = TaskList.class) Predicate predicate
     ) {
-        validator.validationName(bindingResult);
-        taskLisService.editListTask(id, taskListForm);
+        validatorService.validationName(bindingResult);
+        taskListService.editListTask(id, taskListForm);
         return getTaskList(predicate, pageable);
     }
 
     /**
-     * Controller
+     * Удаляет список дел
      *
-     * @param id        TaskList id
-     * @param pageable  pageable
-     * @param predicate predicate
-     * @return Page<TaskList>
+     * @param id        id списка дел
+     * @param predicate Предикаты. Обеспечивают фильтрацию
+     * @param pageable  Пагинация. Обеспечивает пагиначию и сортировку
+     * @return списки дел
      */
     @DeleteMapping("/list/{id}")
     @ApiOperation(value = "deleteTaskList() Удалить выбранный спимок дел. Каскадно удалятся все задачи, принадлежащие этому списку." +
@@ -138,7 +138,7 @@ public class TaskListController {
             @ApiIgnore @PageableDefault(sort = {"dateOfCreation"}, direction = Sort.Direction.ASC) Pageable pageable,
             @ApiIgnore @QuerydslPredicate(root = TaskList.class) Predicate predicate
     ) {
-        taskLisService.deleteListTask(id);
+        taskListService.deleteListTask(id);
         return getTaskList(predicate, pageable);
     }
 }

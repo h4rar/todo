@@ -11,18 +11,18 @@ import java.time.LocalDate;
 import java.util.*;
 
 /**
- * Repository for task lists
+ * Репозиторий для списков дел
  */
 public interface TaskListRepository extends JpaRepository<TaskList, UUID>,
         QuerydslPredicateExecutor<TaskList>, QuerydslBinderCustomizer<QTaskList> {
 
     @Override
     default void customize(@NonNull QuerydslBindings bindings, @NonNull QTaskList root) {
-        // Make case-insensitive 'like' filter for all string properties
+        // Сделать фильтр 'like' без учета регистра для всех свойств строки
         bindings.bind(String.class)
                 .first((SingleValueBinding<StringPath, String>)StringExpression::containsIgnoreCase);
 
-        // Add 'between' and 'greater or equal' filter date property
+        //Добавить свойство даты фильтра "между" и "больше или равно"
         bindings.bind(root.dateOfChange, root.dateOfCreation).all((path, value) -> {
             Iterator<? extends LocalDate> it = value.iterator();
             LocalDate from = it.next();

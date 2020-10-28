@@ -1,15 +1,15 @@
 package com.smartworld.todo.todo.service;
 
 import com.smartworld.todo.todo.exception.*;
-import com.smartworld.todo.todo.service.interfaces.Validator;
+import com.smartworld.todo.todo.service.interfaces.ValidatorService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 /**
- * ValidatorImpl
+ * Имплементация ValidatorService
  */
 @Service
-public class ValidatorImpl implements Validator {
+public class ValidatorServiceImpl implements ValidatorService {
 
     @Override
     public void validationName(BindingResult bindingResult) {

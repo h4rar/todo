@@ -5,7 +5,7 @@ import com.smartworld.todo.todo.dto.forms.TaskListForm;
 import com.smartworld.todo.todo.exception.NotFoundException;
 import com.smartworld.todo.todo.model.TaskList;
 import com.smartworld.todo.todo.repository.TaskListRepository;
-import com.smartworld.todo.todo.service.interfaces.TaskLisService;
+import com.smartworld.todo.todo.service.interfaces.TaskListService;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;
 
@@ -13,14 +13,19 @@ import java.time.LocalDate;
 import java.util.*;
 
 /**
- * Implementation TaskLisService
+ * Имплементация TaskListService
  */
 @Component
-public class TaskLisServiceImpl implements TaskLisService {
+public class TaskListServiceImpl implements TaskListService {
 
     private final TaskListRepository taskListRepository;
 
-    public TaskLisServiceImpl(TaskListRepository taskListRepository) {
+    /**
+     * Конструктор
+     *
+     * @param taskListRepository репозиторий списков дел
+     */
+    public TaskListServiceImpl(TaskListRepository taskListRepository) {
         this.taskListRepository = taskListRepository;
     }
 

@@ -11,7 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.Collections;
 
 /**
- * Config for Swagger
+ * Конфигурация swagger-a
  */
 @Configuration
 @EnableSwagger2
@@ -32,7 +32,7 @@ public class SwaggerConfig {
     }
 
     /**
-     * Configures Swagger
+     * Конфигурация swagger-a
      *
      * @return Docket
      */

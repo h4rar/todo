@@ -6,36 +6,46 @@ import com.smartworld.todo.todo.dto.forms.*;
 import java.util.*;
 
 /**
- * Service for tasks
+ * Сервис для задач
  */
 public interface TaskService {
 
     /**
-     * @param id task id
-     * @return List<TaskDto>
+     * Возвращает список задач
+     *
+     * @param id id списка дел
+     * @return список задач
      */
     List<TaskDto> getTasks(UUID id);
 
     /**
-     * @param id       task id
-     * @param taskForm taskForm
+     * Добавляет новую задачу к списку дел
+     *
+     * @param id       id списка дел
+     * @param taskForm данные для новой задачи
      */
     void addNewTask(UUID id, TaskForm taskForm);
 
     /**
-     * @param taskId      task id
-     * @param taskFormPut taskFormPut request
+     * Изменяет задачу
+     *
+     * @param taskId      id задачи
+     * @param taskFormPut данные для изменения задачи
      */
     void editTask(UUID taskId, TaskFormPut taskFormPut);
 
     /**
-     * @param taskId task id
+     * Удаляет задачу из списка дел
+     *
+     * @param taskId id задачи
      */
     void deleteTask(UUID taskId);
 
     /**
-     * @param taskId           task id
-     * @param taskFormMarkDone taskFormMarkDone request
+     * Отмечает задачу как решенную/нерешенную
+     *
+     * @param taskId           id задачи
+     * @param taskFormMarkDone данные для изменения статуса задачи
      */
     void markDoneTask(UUID taskId, TaskFormMarkDone taskFormMarkDone);
 }

@@ -3,21 +3,21 @@ package com.smartworld.todo.todo.service.interfaces;
 import org.springframework.validation.BindingResult;
 
 /**
- * Validator
+ * Сервис валидации
  */
-public interface Validator {
+public interface ValidatorService {
 
     /**
-     * check name
+     * Проверяет имя
      *
-     * @param bindingResult bindingResult
+     * @param bindingResult
      */
     void validationName(BindingResult bindingResult);
 
     /**
-     * chek MarkDone
+     * Проверяет статус
      *
-     * @param bindingResult bindingResult
+     * @param bindingResult
      */
     void validationMarkDone(BindingResult bindingResult);
 }

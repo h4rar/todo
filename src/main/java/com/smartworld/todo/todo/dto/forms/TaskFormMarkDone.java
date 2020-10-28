@@ -5,10 +5,14 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 /**
- * TaskFormMarkDone request
+ * DTO для изменения статуса задачи
  */
 @Data
 public class TaskFormMarkDone {
+
+    /**
+     * статус здачи
+     */
     @NotNull
     private boolean ready;
 }
