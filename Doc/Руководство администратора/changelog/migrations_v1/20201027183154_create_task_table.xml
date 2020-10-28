@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="h4rar" id="20201027183210_create_task_table">
+        <createTable tableName="task">
+<!--            <column autoIncrement="true" name="id" type="bigint">-->
+<!--                <constraints primaryKey="true" nullable="false" primaryKeyName="task_pkey"/>-->
+<!--            </column>-->
+            <column name="id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="task_list_id" type="uuid">
+                <constraints nullable="true" references="task_list(id)" deleteCascade="true" foreignKeyName="fk_task_list"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_of_change" type="timestamp without time zone">
+            </column>
+            <column name="date_of_creation" type="timestamp without time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(250)">
+            </column>
+            <column name="importance" type="INT">
+            </column>
+            <column name="ready" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="id" tableName="task"/>
+        <rollback>
+            <dropTable tableName="task"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20201027183230_create_task_table" author="h4rar">
+        <sql>
+            ALTER TABLE task ADD CONSTRAINT importance CHECK (importance &gt;=0 AND importance &lt;= 5)
+        </sql>
+    </changeSet>
+</databaseChangeLog>
